@@ -2,7 +2,6 @@ import { useState } from "react";
 import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import "../styles/Form.css";
 import PropTypes from "prop-types";
 import {
   TextField,
@@ -10,6 +9,7 @@ import {
   CircularProgress,
   Box,
   Typography,
+  Container
 } from "@mui/material";
 
 function Form({ route, method }) {
@@ -45,12 +45,18 @@ function Form({ route, method }) {
   };
 
   return (
+    <Container maxWidth='sm'>
     <Box
       display="flex"
       flexDirection="column"
       alignItems="center"
-      height="100vh"
-      sx={{ padding: 2 }}
+      sx={{ 
+        padding: 2,
+        textAlign: 'center',
+        borderRadius: 2,
+        boxShadow: 3,
+        backgroundColor: "#f5f5f5"
+    }}
     >
       <Typography variant="h4" gutterBottom>
         {name}
@@ -74,6 +80,7 @@ function Form({ route, method }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           margin="normal"
+          type="password"
         />
 
         {loading && (
@@ -102,6 +109,7 @@ function Form({ route, method }) {
         )}
       </form>
     </Box>
+    </Container>
   );
 }
 

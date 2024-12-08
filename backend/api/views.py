@@ -3,7 +3,6 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from rest_framework.response import Response
 from rest_framework import status
-from django.http import HttpResponse
 from django.contrib.auth.models import User
 from rest_framework import generics
 from .serializers import UserSerializer
@@ -31,6 +30,13 @@ class SaveOptimizationResultsView(APIView):
         data = request.data
 
         result = optimize_cost(data)
+
+        if 'total_cost' not in result or 'allocations' not in result:
+            return Response(
+                {"error": "Optimization result is incomplete or infeasible."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         total_cost = result['total_cost']
         allocations = result['allocations']
 
