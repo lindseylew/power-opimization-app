@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import OptimizationForm from "./pages/OptimizationForm";
 import OptimizationResults from "./pages/OptimizationResults";
 import ProtectedRoute from "./components/ProtectedRoute";
+import LandingPage from "./pages/LandingPage";
 
 function Logout() {
   localStorage.clear()
@@ -28,15 +29,19 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage/>} />
         <Route
           path="energy-asset/create/"
           element={
         <ProtectedRoute>
           <OptimizationForm onSubmit={handleSubmit}/>
-          {results && <OptimizationResults results={results} />}
         </ProtectedRoute>
           }
           />
+          <Route
+            path="energy-asset/results/"
+            element={<OptimizationResults results={results} />}
+            />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<RegisterAndLogout />} />
@@ -46,4 +51,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

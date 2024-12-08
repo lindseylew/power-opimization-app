@@ -1,4 +1,4 @@
-import { Box, Button, Grid, InputAdornment, TextField } from "@mui/material";
+import { Box, Button, Grid, InputAdornment, TextField, Snackbar } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import api from "../api";
@@ -8,6 +8,10 @@ const OptimizationForm = ({ onSubmit }) => {
   const [assets, setAssets] = useState([
     { name: "", max_capacity: "", cost_per_mwh: "" },
   ]);
+
+  const [statusMessage, setStatusMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const handleAddAsset = () => {
     setAssets([...assets, { name: "", max_capacity: "", cost_per_mwh: "" }]);
@@ -22,13 +26,24 @@ const OptimizationForm = ({ onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { demand, assets };
+    setIsSubmitting(true);
+    setStatusMessage('');
+
     try {
       const response = await api.post("/api/optimize/save/", data);
       onSubmit(response.data);
       setDemand("");
       setAssets([{ name: "", max_capacity: "", cost_per_mwh: "" }]);
+
+      setStatusMessage("Data sumbitted successfully.")
+      setHasError(false);
     } catch (error) {
       console.error("Error submitting optimization data: ", error);
+
+      setStatusMessage("There was an error submitting optimization data: ", error);
+      setHasError(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -105,10 +120,20 @@ const OptimizationForm = ({ onSubmit }) => {
         >
           Add Asset
         </Button>
-        <Button type="submit" variant="contained" color="secondary">
+        <Button type="submit" variant="contained" color="secondary" disabled={isSubmitting}>
           Submit
         </Button>
       </form>
+      <Snackbar
+        open={Boolean(statusMessage)}
+        message={statusMessage}
+        autoHideDuration={6000}
+        onClose={() => setStatusMessage("")}
+        anchorOrigin={{ vertical: "top", horizontal: "center"}}
+        sx={{
+          backgroundColor: hasError ? "red" : "green",
+        }}
+        />
     </Box>
   );
 };

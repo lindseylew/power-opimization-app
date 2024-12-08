@@ -1,4 +1,6 @@
 from rest_framework.views import APIView
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import HttpResponse
@@ -10,6 +12,7 @@ from .models import EnergyAsset, OptimizationResult
 from .serializers import EnergyAssetSerializer, OptimizationResultSerializer
 from .utils import optimize_cost
 # Create your views here.
+
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
