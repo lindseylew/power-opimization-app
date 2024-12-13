@@ -7,6 +7,7 @@ import OptimizationForm from "./pages/OptimizationForm";
 import OptimizationResults from "./pages/OptimizationResults";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
+import WeatherForecast from "./pages/WeatherForecast";
 
 function Logout() {
   localStorage.clear()
@@ -45,6 +46,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<RegisterAndLogout />} />
+          <Route path="/forecast" element={<WeatherForecast />} />
           <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -11,7 +11,7 @@ import {
 import PropTypes from "prop-types";
 
 const OptimizationResults = ({ results }) => {
-  if (!results) return null;
+  if (!results || !results.result || !results.assets) return null;
 
   return (
     <Card sx={{ marginTop: 3 }}>
@@ -66,8 +66,8 @@ OptimizationResults.propTypes = {
       PropTypes.shape({
         cost_per_mwh: PropTypes.number.isRequired,
       })
-    ).isRequired,
-  }).isRequired,
+    )
+  })
 };
 
 export default OptimizationResults;
